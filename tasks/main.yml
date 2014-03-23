@@ -1,0 +1,17 @@
+---
+
+- name: install xdebug
+  apt: pkg=php5-xdebug state=present
+
+- name: write xdebug.ini
+  template: src=xdebug.ini.j2 dest=/etc/php5/mods-available/xdebug.ini owner=root group=root mode=0644
+
+- name: activate cli xdebug
+  file: src=/etc/php5/mods-available/xdebug.ini dest=/etc/php5/cli/conf.d/20-xdebug.ini state=link
+  when: "'cli' in php_xdebug_versions"
+
+- name: activate fpm xdebug
+  file: src=/etc/php5/mods-available/xdebug.ini dest=/etc/php5/fpm/conf.d/20-xdebug.ini state=link
+  notify:
+    - restart php-fpm
+  when: "'fpm' in php_xdebug_versions"
