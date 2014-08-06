@@ -1,5 +1,7 @@
 ---
 
+php_xdebug_extension: "xdebug.so"
+
 php_xdebug_auto_trace: 0
 php_xdebug_cli_color: 0
 php_xdebug_collect_assignments: 0
