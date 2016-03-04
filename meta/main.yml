@@ -12,4 +12,4 @@ galaxy_info:
   categories:
     - web
 dependencies:
-  - f500.php
+  #- f500.php
