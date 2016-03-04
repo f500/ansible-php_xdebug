@@ -65,7 +65,7 @@ Role Variables
 Dependencies
 ------------
 
-Depends on f500.php.
+Depends on f500.repo_dotdeb.
 
 Example Playbook
 -------------------------
