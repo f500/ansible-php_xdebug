@@ -1,12 +1,12 @@
 php_xdebug
 ========
 
-Install xdebug extension for PHP
+Install xdebug extension for PHP5 and PHP7
 
 Requirements
 ------------
 
-Debian Wheezy with the package python-pycurl and python-software-properties installed.
+Debian Wheezy or Jessie with the package python-pycurl and python-software-properties installed.
 
 Role Variables
 --------------
