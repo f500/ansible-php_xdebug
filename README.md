@@ -65,7 +65,7 @@ Role Variables
 Dependencies
 ------------
 
-None
+Depends on f500.repo_dotdeb.
 
 Example Playbook
 -------------------------
