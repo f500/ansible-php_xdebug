@@ -29,14 +29,14 @@ Role Variables
     php_xdebug_force_error_reporting: 0
     php_xdebug_halt_level: 0
     php_xdebug_idekey: ~
-    php_xdebug_manual_url: "http://www.php.net"
+    php_xdebug_manual_url: 'http://www.php.net'
     php_xdebug_max_nesting_level: 100
     php_xdebug_overload_var_dump: 1
     php_xdebug_profiler_append: 0
     php_xdebug_profiler_enable: 0
     php_xdebug_profiler_enable_trigger: 0
-    php_xdebug_profiler_output_dir: "/tmp"
-    php_xdebug_profiler_output_name: "cachegrind.out.%p"
+    php_xdebug_profiler_output_dir: '/tmp'
+    php_xdebug_profiler_output_name: 'cachegrind.out.%p'
     php_xdebug_remote_autostart: 0
     php_xdebug_remote_connect_back: 0
     php_xdebug_remote_cookie_expire_time: 3600
@@ -53,8 +53,8 @@ Role Variables
     php_xdebug_trace_enable_trigger: 0
     php_xdebug_trace_format: 0
     php_xdebug_trace_options: 0
-    php_xdebug_trace_output_dir: "/tmp"
-    php_xdebug_trace_output_name: "trace.%c"
+    php_xdebug_trace_output_dir: '/tmp'
+    php_xdebug_trace_output_name: 'trace.%c'
     php_xdebug_var_display_max_children: 128
     php_xdebug_var_display_max_data: 512
     php_xdebug_var_display_max_depth: 3
