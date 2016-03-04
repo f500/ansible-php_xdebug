@@ -1,17 +1,35 @@
 ---
+- set_fact: php_etc_dir='/etc/php5'
+- set_fact: php_package_prefix='php5'
+
+- shell: php -v | head -n 1 | awk '{print $2}' | cut -c1
+  register: php_query
+
+- fail: msg="Please install php"
+  when: php_query.stderr != ''
+
+- set_fact: php_main_version='{{ php_query.stdout }}'
+
+- set_fact: php_etc_dir='/etc/php/7.0'
+  when: php_main_version == '7'
+
+- set_fact: php_package_prefix='php7.0'
+  when: php_main_version == '7'
+
+- debug: msg='{{ php_package_prefix }}'
 
 - name: install xdebug
-  apt: pkg=php5-xdebug state=present
+  apt: pkg='{{ php_package_prefix }}-xdebug' state=present
 
 - name: write xdebug.ini
-  template: src=xdebug.ini.j2 dest=/etc/php5/mods-available/xdebug.ini owner=root group=root mode=0644
+  template: src=xdebug.ini.j2 dest='{{ php_etc_dir }}/mods-available/xdebug.ini' owner=root group=root mode=0644
 
 - name: activate cli xdebug
-  file: src=/etc/php5/mods-available/xdebug.ini dest=/etc/php5/cli/conf.d/20-xdebug.ini state=link
+  file: src='{{ php_etc_dir }}/mods-available/xdebug.ini' dest='{{ php_etc_dir }}/cli/conf.d/20-xdebug.ini' state=link
   when: "'cli' in php_xdebug_versions"
 
 - name: activate fpm xdebug
-  file: src=/etc/php5/mods-available/xdebug.ini dest=/etc/php5/fpm/conf.d/20-xdebug.ini state=link
+  file: src='{{ php_etc_dir }}/mods-available/xdebug.ini' dest='{{ php_etc_dir }}/fpm/conf.d/20-xdebug.ini' state=link
   notify:
     - restart php-fpm
   when: "'fpm' in php_xdebug_versions"
