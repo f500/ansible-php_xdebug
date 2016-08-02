@@ -28,8 +28,18 @@
   file: src='{{ php_etc_dir }}/mods-available/xdebug.ini' dest='{{ php_etc_dir }}/cli/conf.d/20-xdebug.ini' state=link
   when: "'cli' in php_xdebug_versions"
 
+- name: deactivate cli xdebug
+  file: path='{{ php_etc_dir }}/cli/conf.d/20-xdebug.ini' state=absent
+  when: "'cli' not in php_xdebug_versions"
+
 - name: activate fpm xdebug
   file: src='{{ php_etc_dir }}/mods-available/xdebug.ini' dest='{{ php_etc_dir }}/fpm/conf.d/20-xdebug.ini' state=link
   notify:
     - restart php-fpm
   when: "'fpm' in php_xdebug_versions"
+
+- name: deactivate fpm xdebug
+  file: path='{{ php_etc_dir }}/fpm/conf.d/20-xdebug.ini' state=absent
+  notify:
+    - restart php-fpm
+  when: "'fpm' not in php_xdebug_versions"
