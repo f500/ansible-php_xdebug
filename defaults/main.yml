@@ -52,3 +52,4 @@ php_xdebug_var_display_max_depth: 3
 
 # available: apache2, apache2filter, cgi, cli, fpm
 php_xdebug_versions: []
+php_xdebug_disabled_by_default_versions: []
