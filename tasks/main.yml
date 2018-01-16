@@ -24,22 +24,40 @@
 - name: write xdebug.ini
   template: src=xdebug.ini.j2 dest='{{ php_etc_dir }}/mods-available/xdebug.ini' owner=root group=root mode=0644
 
-- name: activate cli xdebug
+- name: write cli xdebug config
   file: src='{{ php_etc_dir }}/mods-available/xdebug.ini' dest='{{ php_etc_dir }}/cli/conf.d/20-xdebug.ini' state=link
   when: "'cli' in php_xdebug_versions"
 
-- name: deactivate cli xdebug
+- name: active cli xdebug
+  copy: content="zend_extension={{ php_xdebug_extension }}" dest='{{ php_etc_dir }}/cli/conf.d/21-xdebug.ini' owner=root group=root mode=0644
+  when: "'cli' not in php_xdebug_disabled_by_default_versions"
+
+- name: deactivate cli xdebug config
   file: path='{{ php_etc_dir }}/cli/conf.d/20-xdebug.ini' state=absent
   when: "'cli' not in php_xdebug_versions"
 
-- name: activate fpm xdebug
+- name: deactivate cli xdebug extension
+  file: path='{{ php_etc_dir }}/cli/conf.d/21-xdebug.ini' state=absent
+  when: "'cli' not in php_xdebug_versions or 'cli' in php_xdebug_disabled_by_default_versions"
+
+- name: write fpm xdebug config
   file: src='{{ php_etc_dir }}/mods-available/xdebug.ini' dest='{{ php_etc_dir }}/fpm/conf.d/20-xdebug.ini' state=link
   notify:
     - restart php-fpm
   when: "'fpm' in php_xdebug_versions"
+
+- name: active fms xdebug
+  copy: content="zend_extension={{ php_xdebug_extension }}" dest='{{ php_etc_dir }}/fpm/conf.d/21-xdebug.ini' owner=root group=root mode=0644
+  when: "'fpm' not in php_xdebug_disabled_by_default_versions"
 
 - name: deactivate fpm xdebug
   file: path='{{ php_etc_dir }}/fpm/conf.d/20-xdebug.ini' state=absent
   notify:
     - restart php-fpm
   when: "'fpm' not in php_xdebug_versions"
+
+- name: deactivate fpm xdebug
+  file: path='{{ php_etc_dir }}/fpm/conf.d/21-xdebug.ini' state=absent
+  notify:
+    - restart php-fpm
+  when: "'fpm' not in php_xdebug_versions or 'fpm' in php_xdebug_disabled_by_default_versions"
